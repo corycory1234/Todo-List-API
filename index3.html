@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-pic"><a href="index3.html"><img src="./img/online todo list.png" alt="首頁"></a>
+</div>
+    <div class="logoutArea">
+      <h2>XX的待辦</h2>
+      <!-- <a href="" type="submit" class="logout" id="logoutBtn">登出</a> -->
+      <button type="submit" class="logout" id="logoutBtn">登出</button>
+    </div>
+  </div>
+    <div class="container">
+  <h1>TODO LIST</h1>
+  <div class="card input">
+    <input type="text" placeholder="請輸入待辦事項" id="inputText"/>
+    <a href="#" class="btn_add" id="addBtn">+</a>
+  </div>
+  <div class="emptyArea">
+    <h2>目前尚無代辦事項</h2>
+    <img src="./img/empty 1.png" alt="">
+  </div>
+  <div class="card card_list">
+    <ul class="tab" id="tab">
+      <li class="active" data-tab="all">全部</li>
+      <li data-tab="notFinished">待完成</li>
+      <li data-tab="done">已完成</li>
+    </ul>
+    <div class="cart_content">
+      <ul class="list" id="list">
+        <!-- <li>
+          <label class="checkbox" for="">
+            <input type="checkbox" />
+            <span>把冰箱發霉的檸檬拿去丟</span>
+          </label>
+          <a href="#" class="edit"></a>
+          <a href="#" class="delete"></a>
+        </li>
+        <li>
+          <label class="checkbox" for="">
+            <input type="checkbox" />
+            <span>把冰箱發霉的檸檬拿去丟</span>
+          </label>
+          <a href="#" class="delete"></a>
+        </li>
+        <li>
+          <label class="checkbox" for="">
+            <input type="checkbox" />
+            <span>把冰箱發霉的檸檬拿去丟</span>
+          </label>
+          <a href="#" class="delete"></a>
+        </li>
+        <li>
+          <label class="checkbox" for="">
+            <input type="checkbox" />
+            <span>把冰箱發霉的檸檬拿去丟</span>
+          </label>
+          <a href="#" class="delete"></a>
+        </li> -->
+      </ul>
+      <div class="list_footer">
+        <p><span id="notFinishedNum">0</span>個待完成項目</p>
+        <a href="#" id="deleteAll">清除已完成項目</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./javascript/index3.js"></script>
+</body>
+</html>

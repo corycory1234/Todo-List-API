@@ -1,0 +1,74 @@
+*{
+  margin:0;
+  padding:0;
+  list-style: none;
+  text-decoration: none;
+}
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+/************** 登入LogIn ************/
+.logIn-wrap {
+    margin: auto;
+    max-width: 1024px;
+    background-color: #FFD370;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    .logIn-pics{
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      
+    }
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    .email,.password{
+      padding: 12px 16px;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+    }
+    label{
+      margin: 20px 0 5px 0;
+      font-weight: bold;
+    }
+    p{
+      color: #D87355;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+  }
+  .btn-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .loginBtn{
+      width: 128px;
+      border-radius: 5px;
+      background-color: black;
+      color: #fff;
+      padding: 12px 48px;
+      font-weight: bold;
+      margin: 20px 0;
+      border: 0;
+      cursor: pointer;
+    }
+    .loginBtn:hover{
+      color: #FFD370;
+      background-color: #fff;
+    }
+    .registerBtn{
+      font-weight: bold;
+      color: black;
+    }
+    .registerBtn:hover{
+      color: #fff;
+    }
+  }
+  

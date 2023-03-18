@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/register.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="register-wrap">
+        <div class="register-pics">
+            <img src="./img/online todo list.png" alt="">
+            <img src="./img/register-bg.png" alt="">
+        </div>
+
+        <div class="register-form">
+            <h2>註冊帳號</h2>
+            <form action="">
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" class="registerEmail" placeholder="請輸入Email">
+
+                <label for="nickName">您的暱稱</label>
+                <input type="text" id="nickName" class="nickName" placeholder="請輸入您的暱稱">
+
+                <label for="registerPassword">密碼</label>
+                <input type="password" name="" id="registerPassword" class="registerPassword" placeholder="請輸入密碼">
+
+                <label for="passwordAgain">再次輸入密碼</label>
+                <input type="password" name="passwordAgain" id="passwordAgain" class="passwordAgain" placeholder="請再次請輸入密碼">
+
+                <div class="btn-div">
+                    <input type="button" value="註冊帳號" class="registerBtn" id="registerBtn">
+                    <a href="login.html" class="loginBtn" id="loginBtn">登入</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <script src="./javascript/register.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
