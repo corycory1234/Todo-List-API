@@ -264,7 +264,7 @@ function logout(event){
     .then(() => {
         //將storage 中的所有屬性移除。
         localStorage.clear();
-        window.location.assign("login.html");
+        window.location.assign("index.html");
     })
     .catch((error) => console.log(error.response));
 }
