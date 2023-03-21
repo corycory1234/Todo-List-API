@@ -32,11 +32,12 @@ function login(email, password){
     })
     .then(response => {
         console.log(response.headers.authorization);
-        axios.defaults.headers.common['Authorization'] = response.headers.authorization;
-        // localStorage儲存token
+//  token的優化，就不用在其他axios一直補上header...token
+        axios.defaults.headers.common['Authorization'] = response.headers.authorization; 
+//  localStorage儲存token
         token = response.headers.authorization;
         localStorage.setItem("token", token);
-        // localStorage儲存使用者名字
+//  localStorage儲存使用者名
         let userName = response.data.nickname;
         localStorage.setItem("userName", userName);
 

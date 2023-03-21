@@ -13,7 +13,7 @@
     <div class="nav-pic"><a href="index3.html"><img src="./img/online todo list.png" alt="首頁"></a>
 </div>
     <div class="logoutArea">
-      <h2>XX的待辦</h2>
+      <h2><span id="user">XX</span>的待辦</h2>
       <!-- <a href="" type="submit" class="logout" id="logoutBtn">登出</a> -->
       <button type="submit" class="logout" id="logoutBtn">登出</button>
     </div>
@@ -31,7 +31,7 @@
   <div class="card card_list">
     <ul class="tab" id="tab">
       <li class="active" data-tab="all">全部</li>
-      <li data-tab="notFinished">待完成</li>
+      <li data-tab="notDone">待完成</li>
       <li data-tab="done">已完成</li>
     </ul>
     <div class="cart_content">
@@ -67,8 +67,8 @@
         </li> -->
       </ul>
       <div class="list_footer">
-        <p><span id="notFinishedNum">0</span>個待完成項目</p>
-        <a href="#" id="deleteAll">清除已完成項目</a>
+        <p><span id="notDone_Num">0</span>個待完成項目</p>
+        <a href="#" id="del_Done">清除已完成項目</a>
       </div>
     </div>
   </div>
