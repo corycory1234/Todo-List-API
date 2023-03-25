@@ -1,6 +1,180 @@
-//  (0)API共用
+/*********************** 登入LOGIN *************************/
+let loginBtn = document.querySelector("#loginBtn");
+let email = document.querySelector("#email");
+let password = document.querySelector("#password");
 let apiUrl = "https://todoo.5xcamp.us";
-// let token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNjAwIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNjc4OTI4OTk4LCJleHAiOjE2ODAyMjQ5OTgsImp0aSI6IjVjZmQ5MGJkLTI0MjktNGZjNC1iZjcwLWRmOGVkYjE3OThkZiJ9.LRvAwSWSPHhM3i1EI2C5d3ba6vUpgkIXKfHlE_2mlcY";
+let token = "";
+let registerBtn2 = document.querySelector("#registerBtn2")
+
+// 監聽「登入」
+loginBtn.addEventListener("click", (event) =>{
+    if(email.value.trim() === "" || password.value.trim() === ""){
+        Swal.fire({
+            icon: 'error',
+            title: '帳號密碼不可留白!!!',
+            text: '請重新輸入帳號密碼!!!',
+            footer: '<a href="">忘記帳號密碼?</a>'
+          });
+          return;
+    };
+    login(email.value, password.value); // 一定要寫.value, 不然會401錯誤
+    email.value ="";
+    password.value ="";
+});
+
+// 登入LOGIN
+function login(email, password){
+    let obj= {
+        email: email,
+        password: password
+    }
+    axios.post(`${apiUrl}/users/sign_in`, {
+        "user": obj
+    })
+    .then(response => {
+        console.log(response.headers.authorization);
+//  token的優化，就不用在其他axios一直補上header...token
+        axios.defaults.headers.common['Authorization'] = response.headers.authorization; 
+//  localStorage儲存token
+        // token = response.headers.authorization;
+        // localStorage.setItem("token", token);
+//  localStorage儲存使用者名
+        let userName = response.data.nickname;
+        // localStorage.setItem("userName", userName);
+//  登入後，使用者名稱依照response.data.nickname做變更
+        user.textContent = userName;
+
+//  隱藏登入頁面，顯示TODO頁面
+        document.querySelector(".logIn_Wrap").classList.add("hide");
+        document.querySelector(".nav").classList.remove("hide");
+        document.querySelector(".container").classList.remove("hide");
+
+        Swal.fire(`${response.data.message}`, `${userName}您好`, "success")
+        // 成功登入後, 跳轉到首頁
+        // .then((result) => {
+        //     if(result.isConfirmed){
+        //         window.location.assign("index3.html")
+        //     }
+        // }) 
+    })
+    .catch(error => {
+        console.log(error.response);
+        Swal.fire(`${error.response.data.message}`, "請重新輸入", "error") 
+    });
+};
+
+//  點擊登入頁面的『註冊按鍵』，登入頁面隱藏，註冊頁面顯示
+registerBtn2.addEventListener("click", (event) =>{
+    event.preventDefault();
+    document.querySelector(".logIn_Wrap").classList.add("hide");
+    document.querySelector(".register_wrap").classList.remove("hide");
+});
+
+
+
+
+
+
+
+/**********************************註冊頁面*************************/
+let registerEmail = document.querySelector("#registerEmail");
+let nickName = document.querySelector("#nickName");
+let registerPassword = document.querySelector("#registerPassword");
+let passwordAgain = document.querySelector("#passwordAgain");
+let registerBtn = document.querySelector("#registerBtn");
+// let loginBtn = document.querySelector("#loginBtn");
+
+
+//  監聽「註冊」
+registerBtn.addEventListener("click", (event) => {
+    if(registerEmail.value.trim() === "" || 
+    nickName.value.trim() === "" ||
+    registerPassword.value.trim() === "" ||
+    passwordAgain.value.trim() === "" ){
+        Swal.fire("帳號/暱稱/密碼/再次輸入密碼，不可留白!!!","請重新輸入!!!","warning");
+        return;
+    }else if(registerPassword.value.length < 6){
+        Swal.fire("密碼不可少於8個字元","請重新輸入密碼","warning");
+        return;
+    }else if(passwordAgain.value !== registerPassword.value){
+        Swal.fire("密碼必須一樣","請重新輸入密碼","warning");
+        return;
+    }
+    register(registerEmail.value, nickName.value, registerPassword.value, passwordAgain.value)
+});
+
+//  註冊REGISTER函式
+function register(registerEmail, nickName, registerPassword){
+    let obj = {
+        "email": registerEmail, //這邊若用.value, 會報錯
+        "nickname": nickName,   //這邊若用.value, 會報錯
+        "password": registerPassword    //這邊若用.value, 會報錯
+    }
+    axios.post(`${apiUrl}/users`, {
+        "user": obj
+      },)
+      .then((response) => {
+//  token的優化，就不用在其他axios一直補上header...token
+        axios.defaults.headers.common['Authorization'] = response.headers.authorization;
+//  localStorage儲存token金鑰 
+        // token = response.headers.authorization;
+        // localStorage.setItem("token", token);
+//  localStorage儲存使用者名
+        let userName = response.data.nickname;
+        // localStorage.setItem("userName", userName);
+        user.textContent = userName;
+//  隱藏註冊頁面，顯示TODO頁面
+document.querySelector(".register_wrap").classList.add("hide");
+document.querySelector(".nav").classList.remove("hide");
+document.querySelector(".container").classList.remove("hide");
+
+        console.log(response),
+        Swal.fire(`${response.data.message}`, "請牢記帳號密碼", "success")
+//  成功登入後, 跳轉到首頁
+//  Q：result這邊不太懂
+    //     .then((result) => {
+    //         console.log(result);
+    //     if(result.isConfirmed){
+    //         window.location.assign("index3.html");
+    //     };
+    //   });
+    })
+      
+      .catch((error) => {
+        console.log(error.response),
+        Swal.fire(`${error.response.data.error}`, "請檢查輸入帳號密碼", "error")
+    })
+}
+
+//  點擊登入頁面的『註冊按鍵』，登入頁面隱藏，註冊頁面顯示
+let loginBtn2 = document.querySelector("#loginBtn2")
+loginBtn2.addEventListener("click", (event) =>{
+    event.preventDefault();
+    document.querySelector(".register_wrap").classList.add("hide");
+    document.querySelector(".logIn_Wrap").classList.remove("hide");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************TODO-LIST頁面*************************/
+//  (0)API共用
+
 //  (2)渲染
 let list = document.querySelector("#list")
 //  (3)新增
@@ -27,9 +201,9 @@ inputText.addEventListener("keypress", function(event){
 //  (1)getTodo函式
 function getTodo(){
     axios.get(`${apiUrl}/todos`,{
-        headers:{
-            "Authorization": localStorage.getItem("token"),
-        }
+        // headers:{
+        //     "Authorization": localStorage.getItem("token"),
+        // }
     })
     .then((response) =>{
         console.log(response.data.todos)
@@ -71,13 +245,13 @@ function addTodo() {
         }
     },{
         // 要放headers與token, 不然會跑出401錯誤
-        headers:{                  
-            "Authorization": localStorage.getItem("token"),
-        }
+        // headers:{                  
+        //     "Authorization": localStorage.getItem("token"),
+        // }
     })
     .then((response) => {
     console.log(response);
-    getTodo();
+    // getTodo();
 //  Q：為何todo_Arr必須放在.then裡面，是因為要取得API給的ID嗎?
     let obj = {
 //  Q：這邊id若用時間戳 new Date().getTime()，應該就會跟API提供的ID對不上了吧?
@@ -131,9 +305,9 @@ function delAndCheck(event){
 //  當item.id嚴格不相等id時，回傳true，並刪除
         todo_Arr = todo_Arr.filter((item) => item.id !== id); 
         axios.delete(`${apiUrl}/todos/${id}`,{
-            headers:{                       
-                "Authorization": localStorage.getItem("token"),
-            }
+            // headers:{                       
+            //     "Authorization": localStorage.getItem("token"),
+            // }
         })
         .then((response) => Swal.fire(`${response.data.message}`,"已刪除","success"))
         .catch((error) => console.log(error.response))
@@ -149,9 +323,9 @@ function delAndCheck(event){
             if(item.id === id){
             axios.patch(`${apiUrl}/todos/${id}/toggle`, {},
         {
-            headers:{
-                "Authorization": localStorage.token,
-            }
+            // headers:{
+            //     "Authorization": localStorage.token,
+            // }
         })
         .then((response) => {
             todo_Arr.forEach((item, index) => {
@@ -207,9 +381,9 @@ del_Done.addEventListener("click", (event)=>{
     let deleteData = todo_Arr.filter((item) => item.completed_at != null);
     deleteData.forEach((item) => {
         axios.delete(`${apiUrl}/todos/${item.id}`,{
-        headers:{
-            "Authorization": localStorage.getItem("token"),
-        }
+        // headers:{
+        //     "Authorization": localStorage.getItem("token"),
+        // }
     })
     .then((response) => console.log(response))
     .catch((error) => console.log(error.response))
@@ -231,7 +405,7 @@ function edit(event){
     // 透過ul往下找最「近」的li，並取得data-id(也可用getAttribute("data-id"))
     let id = event.target.closest("li").dataset.id;
     console.log(id + "EDIT");
-    if(event.target.classList.value === "edit"){
+    if(event.target.parentElement.classList.value === "edit"){
         event.preventDefault();
 
         
@@ -243,9 +417,9 @@ function edit(event){
               }
         },
         {
-            headers:{                       
-                "Authorization": localStorage.getItem("token"),
-            }
+            // headers:{                       
+            //     "Authorization": localStorage.getItem("token"),
+            // }
         })
         .then((response) => Swal.fire(`${response.data.message}`,"已編輯","success"))
         // .then(() => render(todo_Arr))   // 3/16
@@ -274,22 +448,27 @@ logoutBtn.addEventListener("click", logout);
 function logout(event){
     event.preventDefault();
     axios.delete(`${apiUrl}/users/sign_out`,{
-        headers:{                       
-            //透過localStorage使用getItem將存在瀏覽器的資料取出
-            "Authorization": localStorage.getItem("token")
-        }
+        // headers:{                       
+        //     //透過localStorage使用getItem將存在瀏覽器的資料取出
+        //     "Authorization": localStorage.getItem("token")
+        // }
     })
-    .then((response) => Swal.fire(`${response.data.message}`, "已登出", "success"))
-    .then(() => {
-        //將storage 中的所有屬性移除。
-        localStorage.clear();
-        window.location.assign("login.html");
+    .then((response) => {
+        Swal.fire(`${response.data.message}`, "已登出", "success");
+        document.querySelector(".logIn_Wrap").classList.remove("hide");
+        document.querySelector(".nav").classList.add("hide");
+        document.querySelector(".container").classList.add("hide");
     })
+    // .then(() => {
+    //     //將storage 中的所有屬性移除。
+    //     // localStorage.clear();
+    //     // window.location.assign("login.html");
+    // })
     .catch((error) => console.log(error.response));
 }
 
 //  (12)從登入取出Localstorage的使用者名字
-let user = document.querySelector("#user")
-user.textContent = localStorage.getItem("userName")
+// let user = document.querySelector("#user")
+// user.textContent = localStorage.getItem("userName")
 
 
